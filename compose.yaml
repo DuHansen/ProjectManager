@@ -1,0 +1,29 @@
+version: '3.1'
+
+services:
+  mongo-mvc:
+    container_name: mongo-mvc
+    image: 'mongo'
+    restart: unless-stopped
+    volumes:
+      - mongo-mvc-data:/data
+    ports:
+      - '27017:27017'
+
+  postgres-mvc:
+    container_name: postgres-mvc
+    image: postgres:11
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+    volumes:
+      - postgres-mvc-data:/data
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASS}
+      POSTGRES_INITDB_ARGS: "--auth-host=md5"
+
+volumes:
+  postgres-mvc-data:
+  mongo-mvc-data:
